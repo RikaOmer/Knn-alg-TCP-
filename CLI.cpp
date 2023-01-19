@@ -14,9 +14,9 @@ CLI::CLI(DefaultIO *dio, string filename)
 {
     this->dio = dio;
     flag = true;
-    commands.push_back(new UploadCommand(dio, &data));
+    commands.push_back(new UploadCommand(dio, &data, &dataSet));
     commands.push_back(new SettingsCommand(dio, &k, &dm));
-    commands.push_back(new AlgorithmCommand(dio, k, dm, data, filename, &names));
+    commands.push_back(new AlgorithmCommand(dio, k, dm, data, dataSet, &names));
     commands.push_back(new ResultsCommand(dio, names, data));
     commands.push_back(new DResultCommand(dio, names, data));
     commands.push_back(new ExitCommand(dio, &flag));

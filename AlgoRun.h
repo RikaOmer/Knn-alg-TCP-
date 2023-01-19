@@ -9,7 +9,7 @@ using namespace std;
 class AlgoRun
 {
 public:
-    string setKnnAlgo(string userVector, int k, string fileName, string distanceFunc);
-    vector<string> AlgoRun::setKnnAlgo(list<string> userVector, int k, string fileName, string distanceFunc);
+    vector<string> AlgoRun::fullKnnAlgo(list<string> userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc);
+    string AlgoRun::setKnnAlgo(string userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc);
 };
 #endif

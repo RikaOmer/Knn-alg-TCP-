@@ -10,41 +10,30 @@
 
 using namespace std;
 
-vector<string> AlgoRun::setKnnAlgo(list<string> userVector, int k, string fileName, string distanceFunc)
+vector<string> AlgoRun::fullKnnAlgo(list<string> userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc)
 {
     vector<string> result;
     for (string s : userVector)
     {
-        result.push_back(setKnnAlgo(s, k, fileName, distanceFunc));
+        result.push_back(setKnnAlgo(s, k, dataSet, distanceFunc));
     }
+    return result;
 }
 
-string AlgoRun::setKnnAlgo(string userVector, int k, string fileName, string distanceFunc)
+string AlgoRun::setKnnAlgo(string userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc)
 {
-    map<string, list<vector<double>>> dataSet;
-    StreamFiles streamer;
-    VectorDistance vectorCalculator;
-    dataSet = streamer.dataMake(fileName);
-    string vectorString;
-    if (vectorCalculator.validCheck(vectorString) == 1)
+    VectorDistance check;
+    vector<double> vectorDouble = check.createVector(userVector);
+    if (vectorDouble.size() != dataSet.begin()->second.begin()->size())
     {
-        cout << "invalid input" << endl;
+        cout << "wrong length of vector" << endl;
     }
     else
     {
-        vector<double> vectorDouble = vectorCalculator.createVector(userVector);
-        if (vectorDouble.size() != dataSet.begin()->second.begin()->size())
-        {
-            cout << "wrong length of vector" << endl;
-        }
-        else
-        {
-
-            dataSet = vectorCalculator.distanceCalc(dataSet, vectorDouble, distanceFunc);
-            Knn knn;
-            string name = knn.KnnAlgo(dataSet, k);
-            return name;
-        }
+        dataSet = check.distanceCalc(dataSet, vectorDouble, distanceFunc);
+        Knn knn;
+        string name = knn.KnnAlgo(dataSet, k);
+        return name;
     }
     return ("error");
 }

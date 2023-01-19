@@ -26,9 +26,10 @@ class UploadCommand : public Command
 public:
     list<string> *data;
     map<string, list<vector<double>>> *dataSet;
-    UploadCommand(DefaultIO *dio, list<string> *data) : Command(dio)
+    UploadCommand(DefaultIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet) : Command(dio)
     {
         this->data = data;
+        this->dataSet = dataSet;
         this->description = "1. upload an uncalssified csv data file\n";
     }
     void execute()
@@ -77,17 +78,17 @@ private:
     int k;
     string dm;
     list<string> data;
-    string fileName;
     vector<string> *names;
+    map<string, list<vector<double>>> dataSet;
 
 public:
-    AlgorithmCommand(DefaultIO *dio, int k, string dm, list<string> data, string fileName, vector<string> *names) : Command(dio)
+    AlgorithmCommand(DefaultIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names) : Command(dio)
     {
         this->description = "3. classify data\n";
         this->k = k;
         this->dm = dm;
         this->data = data;
-        this->fileName = fileName;
+        this->dataSet = dataSet;
         this->names = names;
     }
 
@@ -98,7 +99,7 @@ public:
             dio->write("Please upload data\n");
             return;
         }
-        *names = AlgoRun().setKnnAlgo(data, k, fileName, dm);
+        *names = AlgoRun().fullKnnAlgo(data, k, dataSet, dm);
         dio->write("Classifying data complete\n");
     }
 };
