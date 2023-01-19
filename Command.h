@@ -1,7 +1,7 @@
 #include "DefaultIO.h"
 #include <string>
 #include "StreamFiles.h"
-#include "Algorun.h"
+#include "AlgoRun.h"
 #include <iostream>
 #include <fstream>
 #include <thread>
@@ -25,7 +25,7 @@ class UploadCommand : public Command
 {
 public:
     list<string> *data;
-
+    map<string, list<vector<double>>> *dataSet;
     UploadCommand(DefaultIO *dio, list<string> *data) : Command(dio)
     {
         this->data = data;
@@ -34,26 +34,11 @@ public:
     void execute()
     {
         dio->write("Please upload your local train CSV file.\n");
-        *data = StreamFiles().dataMake(dio->read()); // changeee !!!!!!
+        *dataSet = StreamFiles().dataSetMake(dio->read()); // read classified file
         dio->write("Upload complete.\n");
-    }
-};
-
-class MacroCommand : public Command
-{
-protected:
-    vector<Command *> commands;
-
-public:
-    MacroCommand(DefaultIO *dio) : Command(dio)
-    {
-    }
-    void execute()
-    {
-        for (Command *command : commands)
-        {
-            command->execute();
-        }
+        dio->write("Please upload your local test CSV file.\n");
+        *data = StreamFiles().dataMake(dio->read()); // read unclassified file
+        dio->write("Upload complete.\n");
     }
 };
 

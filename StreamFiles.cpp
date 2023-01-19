@@ -9,7 +9,7 @@
  
 using namespace std;
 
-map<string, list<vector<double>>> StreamFiles::dataMake(string fname) 
+map<string, list<vector<double>>> StreamFiles::dataSetMake(string fname) 
 {               
  map<string, list<vector<double>>> dataSet;  //dataset that we create and return
 list<vector<double>> content;   //list of vectors
@@ -50,4 +50,20 @@ if(file.is_open())
 else
     cout<<"Could not open the file\n";
 return dataSet;
+}
+
+list<string> StreamFiles::dataMake(string fname)
+{      
+list<string> data;  //dataset that we create and return
+string line;
+fstream file (fname, ios::in);
+if(file.is_open())
+{
+    while(getline(file, line))
+    {
+
+        data.push_back(line);
+    }
+return data;
+}
 }

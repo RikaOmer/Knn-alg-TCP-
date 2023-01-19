@@ -9,6 +9,7 @@ using namespace std;
 class StreamFiles
 {
 public:
-    map<string, list<vector<double>>> dataMake(string fname);
+    map<string, list<vector<double>>> StreamFiles::dataSetMake(string fname);
+    list<string> StreamFiles::dataMake(string fname);
 };
 #endif 

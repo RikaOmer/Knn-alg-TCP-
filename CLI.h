@@ -11,10 +11,11 @@ private:
     bool flag;
     DefaultIO *dio;
     list<string> data = {};
+    map<string, list<vector<double>>> dataSet = {};
     vector<Command *> commands;
     string filename;
     int k = 5;
-    string dm = "EUC";
+    string dm = "AUC";
     vector<string> names = {};
 
     int menu();
