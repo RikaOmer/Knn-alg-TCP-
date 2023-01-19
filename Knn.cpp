@@ -5,6 +5,7 @@
 #include <list>
 #include <string>
 #include "Knn.h"
+#include "VectorDistance.h"
 using namespace std;
 
 struct nameDistance
@@ -77,4 +78,31 @@ string Knn::KnnAlgo(map<string, list<vector<double>>> dataSet, int k){
         }
          string name = Knn::getMostNames(minDistance);
         return name;
+}
+vector<string> Knn::fullKnnAlgo(list<string> userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc)
+{
+    vector<string> result;
+    for (string s : userVector)
+    {
+        result.push_back(setKnnAlgo(s, k, dataSet, distanceFunc));
+    }
+    return result;
+}
+
+string Knn::setKnnAlgo(string userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc)
+{
+    VectorDistance check;
+    vector<double> vectorDouble = check.createVector(userVector);
+    if (vectorDouble.size() != dataSet.begin()->second.begin()->size())
+    {
+        cout << "wrong length of vector" << endl;
+    }
+    else
+    {
+        dataSet = check.distanceCalc(dataSet, vectorDouble, distanceFunc);
+        Knn knn;
+        string name = knn.KnnAlgo(dataSet, k);
+        return name;
+    }
+    return ("error");
 }

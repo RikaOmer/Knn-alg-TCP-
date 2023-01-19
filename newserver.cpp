@@ -7,15 +7,14 @@
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-#include "AlgoRun.h"
+#include "Knn.h"
 #include <cctype>
 
 using namespace std;
  
 int main(int length,char** args)
 {
-    const int server_port = atoi(args[2]); // get port as a argument
-    const string fileName = args[1]; //classified file
+    const int server_port = atoi(args[1]); // get port as a argument
     // Create a socket
     int listening = socket(AF_INET, SOCK_STREAM, 0);
     if (listening < 0)
@@ -94,13 +93,8 @@ int main(int length,char** args)
         funcName = getInfo.substr(j,i-j);
         string kstr = getInfo.substr(i,getInfo.length()-i);
         int k = stoi(kstr);
-
-        cout << vectorString << endl;
-        cout << funcName << endl;
-        cout << k << endl;
-        cout << fileName << endl;
-        AlgoRun runner;
-        string messege = runner.setKnnAlgo(vectorString, k, fileName, funcName); 
+        Knn runner;
+        string messege = runner.setKnnAlgo(vectorString, k, fileName, funcName); //?
         const int length = messege.length();
         char* char_array = new char[length + 1];
         strcpy(char_array, messege.c_str());

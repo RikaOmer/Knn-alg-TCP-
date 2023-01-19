@@ -1,7 +1,7 @@
 #include "DefaultIO.h"
 #include <string>
 #include "StreamFiles.h"
-#include "AlgoRun.h"
+#include "Knn.h"
 #include <iostream>
 #include <fstream>
 #include <thread>
@@ -100,7 +100,7 @@ public:
             return;
         }
 
-        *names = AlgoRun().fullKnnAlgo(data, k, dataSet, dm);
+        *names = Knn().fullKnnAlgo(data, k, dataSet, dm);
         dio->write("Classifying data complete\n");
     }
 };

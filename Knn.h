@@ -16,5 +16,7 @@ struct nameDistance
 };
     string getMostNames(list<nameDistance> arrayDistance);
     string KnnAlgo(map<string, list<vector<double>>> dataSet, int k);
+    vector<string> fullKnnAlgo(list<string> userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc);
+    string setKnnAlgo(string userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc);
 };
 #endif
