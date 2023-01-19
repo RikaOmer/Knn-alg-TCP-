@@ -99,6 +99,7 @@ public:
             dio->write("Please upload data\n");
             return;
         }
+
         *names = AlgoRun().fullKnnAlgo(data, k, dataSet, dm);
         dio->write("Classifying data complete\n");
     }
@@ -131,9 +132,9 @@ public:
             return;
         }
         int counter = 1;
-        for (string d : data)
+        for (string n : names)
         {
-            dio->write(to_string(counter) + "\t" + d + "\n");
+            dio->write(to_string(counter) + "\t" + n + "\n");
             counter++;
         }
         dio->write("Done.\n");
@@ -169,7 +170,7 @@ public:
         string filePath = dio->read();
         // new thread
         std::thread(
-            [](string path, list<string> data) -> void
+            [](string path, list<string> names) -> void
             {
                 fstream file_out;
                 int counter = 1;
@@ -181,18 +182,18 @@ public:
                 }
                 else
                 {
-                    for (string d : data)
+                    for (string n : names)
                     {
                         // write to file in file path
 
-                        file_out << counter << "\t" << d << endl;
+                        file_out << counter << "\t" << n << endl;
 
                         counter++;
                     }
+                    file_out.close();
                 }
             },
-            filePath, data)
-            .detach();
+            filePath, names).detach();
     }
 };
 
