@@ -1,3 +1,6 @@
+#ifndef CLICLASS
+#define CLICLASS
+
 #include <string>
 #include <vector>
 #include "Command.h"
@@ -22,3 +25,4 @@ public:
     CLI(DefaultIO *dio);
     void start();
 };
+#endif

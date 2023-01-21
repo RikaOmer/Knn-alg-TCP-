@@ -1,3 +1,11 @@
+#ifndef DEFAULTIO
+#define DEFAULTIO
+
+#include <iostream>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <cstring>
+using namespace std;
 
 class DefaultIO
 {
@@ -33,3 +41,5 @@ public:
     }
 
 };
+
+#endif

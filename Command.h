@@ -1,3 +1,6 @@
+#ifndef COMMAND
+#define COMMAND
+
 #include "DefaultIO.h"
 #include <string>
 #include "StreamFiles.h"
@@ -74,7 +77,7 @@ private:
 
 public:
     DResultCommand(DefaultIO *dio, vector<string> names, list<string> data);
-    void WriteToFile(string path, list<string> names);
+    static void WriteToFile(string path,vector<string> names);
     void execute();
 };
 
@@ -85,3 +88,5 @@ public:
     ExitCommand(DefaultIO *dio, bool *flag);
     void execute();
 };
+
+#endif

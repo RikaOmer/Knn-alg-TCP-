@@ -104,10 +104,11 @@
         }
         string filePath = dio->read();
         // new thread
-        thread t(WriteToFile,filePath, names);
-        t.detach();
+        //thread t(ref(WriteToFile), ref(filePath), ref(names));
+        //t.detach();
+        WriteToFile(filePath,names);
     }
-    void DResultCommand::WriteToFile(string path, list<string> names)
+    void DResultCommand::WriteToFile(string path, vector<string> names)
     {
         fstream file_out;
         int counter = 1;

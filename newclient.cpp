@@ -38,7 +38,7 @@ int main(int length,char** args)
     }
 
     //	While loop:
-    char buf[4096];
+    // char buf[4096];
     string userInput;
 
     do {

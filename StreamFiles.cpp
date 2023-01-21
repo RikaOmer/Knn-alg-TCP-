@@ -64,6 +64,6 @@ if(file.is_open())
 
         data.push_back(line);
     }
-return data;
 }
+return data;
 }

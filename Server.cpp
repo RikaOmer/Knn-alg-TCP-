@@ -8,10 +8,11 @@
 #include <thread>
 #include "CLI.h"
 #include "DefaultIO.h"
+#include "Server.h"
 
 using namespace std;
  
-int main(int length,char** args)
+int Server::main(int length,char** args)
 {
     const int server_port = atoi(args[1]); // get port as a argument
     // Create a socket
@@ -46,7 +47,7 @@ int main(int length,char** args)
     }
 }
 
-int newClient(int listening){
+void Server::newClient(int listening){
     // create new thread
     // Wait for a connection
     sockaddr_in client;
@@ -55,12 +56,10 @@ int newClient(int listening){
     if (clientSocket < 0)
     {
         perror("error accepting client");
-        return -1;
     }
     SocketIO socketIO(clientSocket);
     CLI *cliClient = new CLI(&socketIO);
     cliClient->start(); /// run till enter 8
     close(clientSocket);
-    return 0;
     }
     
