@@ -1,5 +1,6 @@
 #include "CLI.h"
 
+using namespace std;
 
 void CLI::start()
 {

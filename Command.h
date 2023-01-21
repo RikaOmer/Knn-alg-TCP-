@@ -26,21 +26,8 @@ class UploadCommand : public Command
 public:
     list<string> *data;
     map<string, list<vector<double>>> *dataSet;
-    UploadCommand(DefaultIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet) : Command(dio)
-    {
-        this->data = data;
-        this->dataSet = dataSet;
-        this->description = "1. upload an uncalssified csv data file\n";
-    }
-    void execute()
-    {
-        dio->write("Please upload your local train CSV file.\n");
-        *dataSet = StreamFiles().dataSetMake(dio->read()); // read classified file
-        dio->write("Upload complete.\n");
-        dio->write("Please upload your local test CSV file.\n");
-        *data = StreamFiles().dataMake(dio->read()); // read unclassified file
-        dio->write("Upload complete.\n");
-    }
+    UploadCommand(DefaultIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet);
+    void execute();
 };
 
 class SettingsCommand : public Command
@@ -50,26 +37,8 @@ private:
     string *dm;
 
 public:
-    SettingsCommand(DefaultIO *dio, int *k, string *dm) : Command(dio)
-    {
-        this->description = "2. algorithm settings\n";
-        this->k = k;
-        this->dm = dm;
-    }
-    void execute()
-    {
-        dio->write("The current KNN parameters are:\n");
-        dio->write("K = " + to_string(*k) + ", distance metric = " + *dm + "\n");
-        string input = dio->read();
-        if (!input.compare("\n") == 0)
-        {
-            int ktemp = stoi(input.substr(0, input.find(" ")));
-            string dmtemp = input.substr(input.find(" ") + 1, input.length());
-            // ------------------ check if valid ---------------------------------------
-            *k = ktemp;
-            *dm = dmtemp;
-        }
-    }
+    SettingsCommand(DefaultIO *dio, int *k, string *dm);
+    void execute();
 };
 
 class AlgorithmCommand : public Command
@@ -82,27 +51,8 @@ private:
     map<string, list<vector<double>>> dataSet;
 
 public:
-    AlgorithmCommand(DefaultIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names) : Command(dio)
-    {
-        this->description = "3. classify data\n";
-        this->k = k;
-        this->dm = dm;
-        this->data = data;
-        this->dataSet = dataSet;
-        this->names = names;
-    }
-
-    void execute()
-    {
-        if (data.empty())
-        {
-            dio->write("Please upload data\n");
-            return;
-        }
-
-        *names = Knn().fullKnnAlgo(data, k, dataSet, dm);
-        dio->write("Classifying data complete\n");
-    }
+    AlgorithmCommand(DefaultIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names);
+    void execute();
 };
 
 class ResultsCommand : public Command
@@ -112,33 +62,8 @@ private:
     list<string> data;
 
 public:
-    ResultsCommand(DefaultIO *dio, vector<string> names, list<string> data) : Command(dio)
-    {
-        this->description = "4. display results\n";
-        this->names = names;
-        this->data = data;
-    }
-
-    void execute()
-    {
-        if (data.empty())
-        {
-            dio->write("Please upload data\n");
-            return;
-        }
-        else if (names.empty())
-        {
-            dio->write("Please classify data\n");
-            return;
-        }
-        int counter = 1;
-        for (string n : names)
-        {
-            dio->write(to_string(counter) + "\t" + n + "\n");
-            counter++;
-        }
-        dio->write("Done.\n");
-    }
+    ResultsCommand(DefaultIO *dio, vector<string> names, list<string> data);
+    void execute();
 };
 
 class DResultCommand : public Command
@@ -148,66 +73,15 @@ private:
     list<string> data;
 
 public:
-    DResultCommand(DefaultIO *dio, vector<string> names, list<string> data) : Command(dio)
-    {
-        this->description = "4. display results\n";
-        this->names = names;
-        this->data = data;
-    }
-
-    void execute()
-    {
-        if (data.empty())
-        {
-            dio->write("Please upload data\n");
-            return;
-        }
-        else if (names.empty())
-        {
-            dio->write("Please classify data\n");
-            return;
-        }
-        string filePath = dio->read();
-        // new thread
-        std::thread(
-            [](string path, list<string> names) -> void
-            {
-                fstream file_out;
-                int counter = 1;
-                file_out.open(path, std::ios_base::out);
-                if (!file_out.is_open())
-                {
-                    // DELETE WHEN DONE !!!!! -----------------
-                    cout << "failed to open " << path << '\n';
-                }
-                else
-                {
-                    for (string n : names)
-                    {
-                        // write to file in file path
-
-                        file_out << counter << "\t" << n << endl;
-
-                        counter++;
-                    }
-                    file_out.close();
-                }
-            },
-            filePath, names).detach();
-    }
+    DResultCommand(DefaultIO *dio, vector<string> names, list<string> data);
+    void WriteToFile(string path, list<string> names);
+    void execute();
 };
 
 class ExitCommand : public Command
 {
 public:
     bool *flag;
-    ExitCommand(DefaultIO *dio, bool *flag) : Command(dio)
-    {
-        this->description = "8. exit\n";
-        this->flag = flag;
-    }
-    void execute()
-    {
-        *flag = false;
-    }
+    ExitCommand(DefaultIO *dio, bool *flag);
+    void execute();
 };

@@ -6,6 +6,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <string>
+#include "DefaultIO.h"
 
 using namespace std;
 
@@ -27,7 +28,7 @@ int main(int length,char** args)
     hint.sin_family = AF_INET;
     hint.sin_port = htons(port);
     inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
-
+    SocketIO* socketio;
     //	Connect to the server on the socket
     int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
     if (connectRes == -1)
@@ -46,26 +47,27 @@ int main(int length,char** args)
         if(userInput == "-1"){
             break;
         }
+        socketio->write(userInput);
+        cout << socketio->read() << endl;
         //		Send to server
-        int sendRes = send(sock, userInput.c_str(), userInput.size() + 1, 0);
-        if (sendRes == -1)
-        {
-            cout << "Messege didnt sent to the server";
-            continue;
-        }
+        // if (sendRes == -1)
+        // {
+        //     cout << "Messege didnt sent to the server";
+        //     continue;
+        // }
 
         //		Wait for response
-        memset(buf, 0, 4096);
-        int bytesReceived = recv(sock, buf, 4096, 0);
-        if (bytesReceived == -1)
-        {
-            cout << "There was an error getting response from server\r\n";
-        }
-        else
-        {
-            //		Display response
-            cout << string(buf, bytesReceived) << "\r\n";
-        }
+        // memset(buf, 0, 4096);
+        // int bytesReceived = recv(sock, buf, 4096, 0);
+        // if (bytesReceived == -1)
+        // {
+        //     cout << "There was an error getting response from server\r\n";
+        // }
+        // else
+        // {
+        //     //		Display response
+        //     cout << string(buf, bytesReceived) << "\r\n";
+        // }
     } while(true);
 
     //	Close the socket

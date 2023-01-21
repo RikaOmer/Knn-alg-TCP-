@@ -1,3 +1,3 @@
 compile:
-	g++ -std=c++11 AlgoRun.cpp Knn.cpp newserver.cpp StreamFiles.cpp VectorDistance.cpp -o server.out
+	g++ -std=c++11 Knn.cpp newserver.cpp StreamFiles.cpp VectorDistance.cpp CLI.cpp Command.cpp DefaultIO.cpp -o server.out
 	g++ -std=c++11 newclient.cpp -o client.out
