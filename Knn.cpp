@@ -79,6 +79,7 @@ string Knn::KnnAlgo(map<string, list<vector<double>>> dataSet, int k){
          string name = Knn::getMostNames(minDistance);
         return name;
 }
+
 vector<string> Knn::fullKnnAlgo(list<string> userVector, int k, map<string, list<vector<double>>> dataSet, string distanceFunc)
 {
     vector<string> result;

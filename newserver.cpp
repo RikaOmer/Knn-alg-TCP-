@@ -9,6 +9,9 @@
 #include <arpa/inet.h>
 #include "Knn.h"
 #include <cctype>
+#include <thread>
+#include "CLI.h"
+#include "DefaultIO.h"
 
 using namespace std;
  
@@ -42,71 +45,25 @@ int main(int length,char** args)
     listen(listening, SOMAXCONN); // Tell Winsock the socket is for listening
     while (true)
     {
+        
+    }
+}
+
+int newClient(int listening){
+    // create new thread
     // Wait for a connection
     sockaddr_in client;
     socklen_t clientSize = sizeof(client);
     int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
-     if (clientSocket < 0)
+    if (clientSocket < 0)
     {
         perror("error accepting client");
         return -1;
     }
- 
-    // Close listening socket
-    // close(listening); 
- 
-    // While loop: accept and echo message back to client
-    char buf[4096];
- 
-    while (true)
-    {
-        memset(buf, 0, 4096);
- 
-        // Wait for client to send data
-        int bytesReceived = recv(clientSocket, buf, 4096, 0);
-        if (bytesReceived == -1)
-        {
-            perror("Connection issue");
-            break;
-        }
- 
-        if (bytesReceived == 0)
-        {
-            perror("Client disconnected");
-            break;
-        }
- 
-        string getInfo = string(buf, 0, bytesReceived); // the information that recived from the client *****
-        int i = 0;
-        string funcName;
-        
-        
-
-        while(isalpha(getInfo[i]) == 0){
-            i++;
-        }
-        int j = i;
-        string vectorString = getInfo.substr(0,i-1);
-        while(isalpha(getInfo[i]) != 0){
-            i++;
-        }
-        funcName = getInfo.substr(j,i-j);
-        string kstr = getInfo.substr(i,getInfo.length()-i);
-        int k = stoi(kstr);
-        Knn runner;
-        string messege = runner.setKnnAlgo(vectorString, k, fileName, funcName); //?
-        const int length = messege.length();
-        char* char_array = new char[length + 1];
-        strcpy(char_array, messege.c_str());
-
-        // // Echo message back to client
-        send(clientSocket, char_array, length + 1, 0);  // sent a message for client
-        cout << messege << endl;
-        // send(clientSocket, buf, bytesReceived + 1, 0); 
-    }
-    }
- 
-    // // Close the socket
-    // close(clientSocket);
+    SocketIO socketIO(clientSocket);
+    CLI *cliClient = new CLI(&socketIO);
+    cliClient->start(); /// run till enter 8
+    close(clientSocket);
     return 0;
-}
+    }
+    

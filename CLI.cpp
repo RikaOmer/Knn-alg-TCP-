@@ -10,10 +10,10 @@ void CLI::start()
     }
 }
 
-CLI::CLI(DefaultIO *dio, string filename)
+CLI::CLI(DefaultIO *dio)
 {
     this->dio = dio;
-    flag = true;
+    this->flag = true;
     commands.push_back(new UploadCommand(dio, &data, &dataSet));
     commands.push_back(new SettingsCommand(dio, &k, &dm));
     commands.push_back(new AlgorithmCommand(dio, k, dm, data, dataSet, &names));
