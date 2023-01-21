@@ -2,13 +2,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <cstring>
-#include <string.h>
-#include <string>
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-#include "Knn.h"
-#include <cctype>
 #include <thread>
 #include "CLI.h"
 #include "DefaultIO.h"
@@ -45,7 +41,8 @@ int main(int length,char** args)
     listen(listening, SOMAXCONN); // Tell Winsock the socket is for listening
     while (true)
     {
-        
+        thread clientThread(newClient, listening);
+        clientThread.detach();
     }
 }
 
