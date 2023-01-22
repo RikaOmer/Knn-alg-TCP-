@@ -32,4 +32,4 @@ int CLI::menu()
     }
     string option = dio->read();
     return stoi(option) == 8 ? 5 : stoi(option) - 1;
-}
+} 
