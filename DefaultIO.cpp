@@ -29,6 +29,7 @@ string SocketIO::read(){
     }
 
 void SocketIO::write(string messege){
+        cout << "sec"; // testttttttttttttttttttttttttttttttttttt
         const int length = messege.length();
         char* char_array = new char[length + 1];
         strcpy(char_array, messege.c_str());
