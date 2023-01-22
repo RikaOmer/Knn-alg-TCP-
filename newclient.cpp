@@ -7,6 +7,7 @@
 #include <string.h>
 #include <string>
 #include "DefaultIO.h"
+#include "DefaultIO.cpp"
 
 using namespace std;
 
@@ -23,12 +24,12 @@ int main(int length,char** args)
     }
 
     //	Create a hint structure for the server we're connecting with
-
     sockaddr_in hint;
     hint.sin_family = AF_INET;
     hint.sin_port = htons(port);
     inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
-    SocketIO *socketio = new SocketIO(sock);  //////////////////////////////////////////////////
+    SocketIO* socketio;  //////////////////////////////////////////////////
+    socketio = new SocketIO(sock);
     //	Connect to the server on the socket
     int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
     if (connectRes == -1)

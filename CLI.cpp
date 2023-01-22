@@ -11,7 +11,7 @@ void CLI::start()
     }
 }
 
-CLI::CLI(DefaultIO *dio)
+CLI::CLI(SocketIO *dio)
 {
     this->dio = dio;
     this->flag = true;

@@ -35,11 +35,11 @@ void SocketIO::write(string messege){
         strcpy(char_array, messege.c_str());
         send(clientSocket, char_array, length + 1, 0);  // sent a message for client
     }
-void DefaultIO::write(string messege){
-        cout << messege;
-    }
-string DefaultIO::read(){
-        string userInput;
-        getline(cin, userInput);
-        return userInput;
-    }
+// void DefaultIO::write(string messege){
+//         cout << messege;
+//     }
+// string DefaultIO::read(){
+//         string userInput;
+//         getline(cin, userInput);
+//         return userInput;
+//     }

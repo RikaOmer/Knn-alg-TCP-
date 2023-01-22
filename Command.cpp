@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Command.h"
 
-   UploadCommand::UploadCommand(DefaultIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet) : Command(dio)
+   UploadCommand::UploadCommand(SocketIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet) : Command(dio)
     {
         this->data = data;
         this->dataSet = dataSet;
@@ -16,7 +16,7 @@
         *data = StreamFiles().dataMake(dio->read()); // read unclassified file
         dio->write("Upload complete.\n");
     }
-    SettingsCommand::SettingsCommand(DefaultIO *dio, int *k, string *dm) : Command(dio)
+    SettingsCommand::SettingsCommand(SocketIO *dio, int *k, string *dm) : Command(dio)
     {
         this->description = "2. algorithm settings\n";
         this->k = k;
@@ -36,7 +36,7 @@
             *dm = dmtemp;
         }
     }
-    AlgorithmCommand::AlgorithmCommand(DefaultIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names) : Command(dio)
+    AlgorithmCommand::AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names) : Command(dio)
     {
         this->description = "3. classify data\n";
         this->k = k;
@@ -56,7 +56,7 @@
         *names = Knn().fullKnnAlgo(data, k, dataSet, dm);
         dio->write("Classifying data complete\n");
     }
-    ResultsCommand::ResultsCommand(DefaultIO *dio, vector<string> names, list<string> data) : Command(dio)
+    ResultsCommand::ResultsCommand(SocketIO *dio, vector<string> names, list<string> data) : Command(dio)
     {
         this->description = "4. display results\n";
         this->names = names;
@@ -84,7 +84,7 @@
     }
 
     
-    DResultCommand::DResultCommand(DefaultIO *dio, vector<string> names, list<string> data) : Command(dio)
+    DResultCommand::DResultCommand(SocketIO *dio, vector<string> names, list<string> data) : Command(dio)
     {
         this->description = "4. display results\n";
         this->names = names;
@@ -130,7 +130,7 @@
     }
 
 
-    ExitCommand::ExitCommand(DefaultIO *dio, bool *flag) : Command(dio)
+    ExitCommand::ExitCommand(SocketIO *dio, bool *flag) : Command(dio)
     {
         this->description = "8. exit\n";
         this->flag = flag;
