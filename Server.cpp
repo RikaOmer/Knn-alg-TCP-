@@ -58,6 +58,6 @@ int main(int length,char** args)
     while (true)
     {
         thread clientThread(newClient, listening);
-        clientThread.detach();
+        clientThread.join();
     }
 }
