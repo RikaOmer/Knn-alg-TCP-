@@ -11,9 +11,10 @@
 
 using namespace std;
 
-static void newClient(int listening){
+void newClient(int listening){
     // create new thread
     // Wait for a connection
+    cout << "new client"; // testtttttttttttttttttttttttttttt
     sockaddr_in client;
     socklen_t clientSize = sizeof(client);
     int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
@@ -24,11 +25,10 @@ static void newClient(int listening){
     SocketIO socketIO(clientSocket);
     CLI *cliClient = new CLI(&socketIO);
     cliClient->start(); /// run till enter 8
-    close(clientSocket);
+   /// close(clientSocket); ////////// test
     }
  
-int main(int length,char** args)
-{
+int main(int length,char** args){
     const int server_port = atoi(args[1]); // get port as a argument
     // Create a socket
     int listening = socket(AF_INET, SOCK_STREAM, 0);
@@ -53,11 +53,15 @@ int main(int length,char** args)
         perror("error listening to a socket");
         return -1;
     }
- 
+    cout << "before listen" << endl;
     listen(listening, SOMAXCONN); // Tell Winsock the socket is for listening
-    while (true)
+    cout << "after listen1" << endl;
+    while (1)
     {
-        thread clientThread(newClient, listening);
-        clientThread.join();
+        cout << "enter to while1"<<endl; // testtttttttttttttttttt
+        //thread clientThread(newClient, listening);
+        // clientThread.join();
+         newClient(listening);
     }
+    
 }

@@ -28,7 +28,7 @@ int main(int length,char** args)
     hint.sin_family = AF_INET;
     hint.sin_port = htons(port);
     inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
-    SocketIO* socketio;
+    SocketIO *socketio = new SocketIO(sock);  //////////////////////////////////////////////////
     //	Connect to the server on the socket
     int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
     if (connectRes == -1)
@@ -36,40 +36,18 @@ int main(int length,char** args)
         cout << "connection error";
         return 1;
     }
-
     //	While loop:
     // char buf[4096];
     string userInput;
-
+    cout << "connection success" << endl;
     do {
-        //		Enter lines of text
+        //		print and send
+        cout << socketio->read() << endl;
         getline(cin, userInput);
-        if(userInput == "-1"){
-            break;
-        }
         socketio->write(userInput);
         cout << socketio->read() << endl;
-        //		Send to server
-        // if (sendRes == -1)
-        // {
-        //     cout << "Messege didnt sent to the server";
-        //     continue;
-        // }
 
-        //		Wait for response
-        // memset(buf, 0, 4096);
-        // int bytesReceived = recv(sock, buf, 4096, 0);
-        // if (bytesReceived == -1)
-        // {
-        //     cout << "There was an error getting response from server\r\n";
-        // }
-        // else
-        // {
-        //     //		Display response
-        //     cout << string(buf, bytesReceived) << "\r\n";
-        // }
     } while(true);
-
     //	Close the socket
     close(sock);
 
