@@ -8,11 +8,26 @@
 #include <thread>
 #include "CLI.h"
 #include "DefaultIO.h"
-#include "Server.h"
 
 using namespace std;
+
+static void newClient(int listening){
+    // create new thread
+    // Wait for a connection
+    sockaddr_in client;
+    socklen_t clientSize = sizeof(client);
+    int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
+    if (clientSocket < 0)
+    {
+        perror("error accepting client");
+    }
+    SocketIO socketIO(clientSocket);
+    CLI *cliClient = new CLI(&socketIO);
+    cliClient->start(); /// run till enter 8
+    close(clientSocket);
+    }
  
-int Server::main(int length,char** args)
+int main(int length,char** args)
 {
     const int server_port = atoi(args[1]); // get port as a argument
     // Create a socket
@@ -46,20 +61,3 @@ int Server::main(int length,char** args)
         clientThread.detach();
     }
 }
-
-void Server::newClient(int listening){
-    // create new thread
-    // Wait for a connection
-    sockaddr_in client;
-    socklen_t clientSize = sizeof(client);
-    int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
-    if (clientSocket < 0)
-    {
-        perror("error accepting client");
-    }
-    SocketIO socketIO(clientSocket);
-    CLI *cliClient = new CLI(&socketIO);
-    cliClient->start(); /// run till enter 8
-    close(clientSocket);
-    }
-    
