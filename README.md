@@ -6,3 +6,10 @@ for stop connection to server type: -1 <br />
 
 this project create server and client using TCP. <br />
 
+
+have to finish:
+1. exit on 8 <br />
+2. enter 'enter' on 2<br />
+3. 5 download <br />
+4. thread <br />
+

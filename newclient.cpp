@@ -43,12 +43,10 @@ int main(int length, char **args)
     do
     {
         //		print and send
-        
         cout << socketio->read();
         sleep(1);
         getline(cin, userInput);
         socketio->write(userInput);
-       
 
     } while (true);
     //	Close the socket

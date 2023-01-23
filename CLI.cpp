@@ -12,9 +12,16 @@ void CLI::start()
     while (flag)
     {
         string get = dio->read();
-        option = stoi(get) == 8 ? 5 : stoi(get) - 1;
-        output = commands[option]->execute();
-        dio->write(output + menu);
+        option = stoi(get);
+         if(option != 8){
+            option = option -1;
+            output = commands[option]->execute();
+            dio->write(output + menu);
+         }
+         else{
+            output = commands[5]->execute();
+            dio->write("");
+         }
     }
 }
 
@@ -32,7 +39,7 @@ CLI::CLI(SocketIO *dio)
 
 string CLI::menu()
 {
-    string printMenu = "Welcome to the KNN Calssifier Server Please choose an option:\n";
+    string printMenu = "Welcome to the KNN Calssifier Server. Please choose an option:\n";
     for (Command *command : commands)
     {
         printMenu = printMenu + command->description;

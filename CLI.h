@@ -12,7 +12,7 @@ class CLI
 {
 private:
     bool flag; // when to exit
-    SocketIO *dio; // choose IO 
+    SocketIO *dio; // choose IO
     list<string> data = {}; // unclassified data
     map<string, list<vector<double>>> dataSet = {}; // classified data
     vector<Command *> commands; // all commands
