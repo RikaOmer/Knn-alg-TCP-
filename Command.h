@@ -47,36 +47,36 @@ public:
 class AlgorithmCommand : public Command
 {
 private:
-    int k;
-    string dm;
-    list<string> data;
+    int *k;
+    string *dm;
+    list<string> *data;
     vector<string> *names;
-    map<string, list<vector<double>>> dataSet;
+    map<string, list<vector<double>>> *dataSet;
 
 public:
-    AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names);
+    AlgorithmCommand(SocketIO *dio, int *k, string *dm, list<string> *data, map<string, list<vector<double>>> *dataSet, vector<string> *names);
     string execute();
 };
 
 class ResultsCommand : public Command
 {
 private:
-    vector<string> names;
-    list<string> data;
+    vector<string> *names;
+    list<string> *data;
 
 public:
-    ResultsCommand(SocketIO *dio, vector<string> names, list<string> data);
+    ResultsCommand(SocketIO *dio, vector<string> *names, list<string> *data);
     string execute();
 };
 
 class DResultCommand : public Command
 {
 private:
-    vector<string> names;
-    list<string> data;
+    vector<string> *names;
+    list<string> *data;
 
 public:
-    DResultCommand(SocketIO *dio, vector<string> names, list<string> data);
+    DResultCommand(SocketIO *dio, vector<string> *names, list<string> *data);
     static void WriteToFile(string path,vector<string> names);
     string execute();
 };

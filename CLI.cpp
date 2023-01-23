@@ -24,9 +24,9 @@ CLI::CLI(SocketIO *dio)
     this->flag = true;
     commands.push_back(new UploadCommand(dio, &data, &dataSet));
     commands.push_back(new SettingsCommand(dio, &k, &dm));
-    commands.push_back(new AlgorithmCommand(dio, k, dm, data, dataSet, &names));
-    commands.push_back(new ResultsCommand(dio, names, data));
-    commands.push_back(new DResultCommand(dio, names, data));
+    commands.push_back(new AlgorithmCommand(dio, &k, &dm, &data, &dataSet, &names));
+    commands.push_back(new ResultsCommand(dio, &names, &data));
+    commands.push_back(new DResultCommand(dio, &names, &data));
     commands.push_back(new ExitCommand(dio, &flag));
 }
 

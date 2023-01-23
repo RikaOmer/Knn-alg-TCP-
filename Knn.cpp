@@ -96,7 +96,8 @@ string Knn::setKnnAlgo(string userVector, int k, map<string, list<vector<double>
     vector<double> vectorDouble = check.createVector(userVector);
     if (vectorDouble.size() != dataSet.begin()->second.begin()->size())
     {
-        cout << "wrong length of vector" << endl;
+        cout << "vector size = " + to_string(vectorDouble.size()) << endl;
+        cout << "data vector size = "+ to_string(dataSet.begin()->second.begin()->size()) << endl;
     }
     else
     {

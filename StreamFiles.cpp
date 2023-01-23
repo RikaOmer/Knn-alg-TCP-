@@ -20,6 +20,7 @@ string line, word;
 fstream file (fname, ios::in);
 if(file.is_open())
 {
+    cout << "file opend";
     while(getline(file, line))
     {
         getRow.clear();
@@ -61,9 +62,11 @@ if(file.is_open())
 {
     while(getline(file, line))
     {
-
+        cout << line << endl;
         data.push_back(line);
     }
+} else {
+    cout << "cant open the file";
 }
 return data;
 }

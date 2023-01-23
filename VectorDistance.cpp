@@ -27,12 +27,13 @@ vector<double> VectorDistance::createVector(string str)
     char * pch;
     char *str1 = new char[str.length() + 1];
     strcpy(str1, str.c_str());
-    pch = strtok(str1," ");
+    pch = strtok(str1,",");
     while (pch != NULL)
     {
+    cout << pch << endl;
     number = strtod(pch, &end);
     thisVector.push_back(number);
-    pch = strtok (NULL, " ");
+    pch = strtok (NULL, ",");
     }
     return thisVector;
 }
