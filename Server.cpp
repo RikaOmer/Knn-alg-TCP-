@@ -14,7 +14,7 @@ using namespace std;
 void newClient(int listening){
     // create new thread
     // Wait for a connection
-    cout << "new client"; // testtttttttttttttttttttttttttttt
+    cout << "new client"; // *************test***************
     sockaddr_in client;
     socklen_t clientSize = sizeof(client);
     int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
@@ -25,7 +25,7 @@ void newClient(int listening){
     SocketIO socketIO(clientSocket);
     CLI *cliClient = new CLI(&socketIO);
     cliClient->start(); /// run till enter 8
-   /// close(clientSocket); ////////// test
+    close(clientSocket);
     }
  
 int main(int length,char** args){

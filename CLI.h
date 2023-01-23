@@ -19,10 +19,10 @@ private:
     int k = 5; // k for the Knn
     string dm = "AUC"; // function for Knn
     vector<string> names = {};  //classified names
-    int menu();
-
+    
 public:
     CLI(SocketIO *dio);
     void start();
+    string menu();
 };
 #endif

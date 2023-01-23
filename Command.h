@@ -17,6 +17,7 @@ protected:
 
 public:
     string description;
+    string menu;
     virtual void execute() = 0;
     Command(SocketIO *dio)
     {
@@ -29,7 +30,7 @@ class UploadCommand : public Command
 public:
     list<string> *data;
     map<string, list<vector<double>>> *dataSet;
-    UploadCommand(SocketIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet);
+    UploadCommand(SocketIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet, string menu);
     void execute();
 };
 
@@ -40,7 +41,7 @@ private:
     string *dm;
 
 public:
-    SettingsCommand(SocketIO *dio, int *k, string *dm);
+    SettingsCommand(SocketIO *dio, int *k, string *dm, string menu);
     void execute();
 };
 
@@ -54,7 +55,7 @@ private:
     map<string, list<vector<double>>> dataSet;
 
 public:
-    AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names);
+    AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names, string menu);
     void execute();
 };
 
@@ -65,7 +66,7 @@ private:
     list<string> data;
 
 public:
-    ResultsCommand(SocketIO *dio, vector<string> names, list<string> data);
+    ResultsCommand(SocketIO *dio, vector<string> names, list<string> data, string menu);
     void execute();
 };
 
@@ -76,7 +77,7 @@ private:
     list<string> data;
 
 public:
-    DResultCommand(SocketIO *dio, vector<string> names, list<string> data);
+    DResultCommand(SocketIO *dio, vector<string> names, list<string> data, string menu);
     static void WriteToFile(string path,vector<string> names);
     void execute();
 };

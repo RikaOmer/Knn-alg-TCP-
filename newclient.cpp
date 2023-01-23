@@ -11,10 +11,10 @@
 
 using namespace std;
 
-int main(int length,char** args)
+int main(int length, char **args)
 {
-    const string ipAddress =(args[1]);
-    const int port= atoi(args[2]);
+    const string ipAddress = (args[1]);
+    const int port = atoi(args[2]);
     //	Create a socket
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == -1)
@@ -28,10 +28,10 @@ int main(int length,char** args)
     hint.sin_family = AF_INET;
     hint.sin_port = htons(port);
     inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
-    SocketIO* socketio;  //////////////////////////////////////////////////
+    SocketIO *socketio; //////////////////////////////////////////////////
     socketio = new SocketIO(sock);
     //	Connect to the server on the socket
-    int connectRes = connect(sock, (sockaddr*)&hint, sizeof(hint));
+    int connectRes = connect(sock, (sockaddr *)&hint, sizeof(hint));
     if (connectRes == -1)
     {
         cout << "connection error";
@@ -40,15 +40,17 @@ int main(int length,char** args)
     //	While loop:
     // char buf[4096];
     string userInput;
-    cout << "connection success" << endl;
-    do {
+    do
+    {
         //		print and send
-        cout << socketio->read() << endl;
+        
+        cout << socketio->read();
+        sleep(1);
         getline(cin, userInput);
         socketio->write(userInput);
-        sleep(1);
+       
 
-    } while(true);
+    } while (true);
     //	Close the socket
     close(sock);
 
