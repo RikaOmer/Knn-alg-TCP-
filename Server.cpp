@@ -53,12 +53,9 @@ int main(int length,char** args){
         perror("error listening to a socket");
         return -1;
     }
-    cout << "before listen" << endl;
     listen(listening, SOMAXCONN); // Tell Winsock the socket is for listening
-    cout << "after listen1" << endl;
     while (1)
     {
-        cout << "enter to while1"<<endl; // testtttttttttttttttttt
         //thread clientThread(newClient, listening);
         // clientThread.join();
          newClient(listening);

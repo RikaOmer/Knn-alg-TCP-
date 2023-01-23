@@ -2,30 +2,27 @@
 #include "Command.h"
 #include "CLI.h"
 
-UploadCommand::UploadCommand(SocketIO *dio, list<string> *data, map<string, list<vector<double>>> *dataSet, string menu) : Command(dio)
+UploadCommand::UploadCommand(SocketIO *dio, list<string> *data, map<string, list<vector<double>>> *dataSet) : Command(dio)
 {
     this->data = data;
     this->dataSet = dataSet;
     this->description = "1. upload an uncalssified csv data file\n";
-    this->menu = menu;
 }
-void UploadCommand::execute()
+string UploadCommand::execute()
 {
     dio->write("Please upload your local train CSV file.\n");
     *dataSet = StreamFiles().dataSetMake(dio->read()); // read classified file
     dio->write("Upload complete.\n Please upload your local test CSV file.\n");
     *data = StreamFiles().dataMake(dio->read()); // read unclassified file
-    dio->write("Upload complete.\n" + menu);
-    return;
+    return "Upload complete.\n";
 }
-SettingsCommand::SettingsCommand(SocketIO *dio, int *k, string *dm, string menu) : Command(dio)
+SettingsCommand::SettingsCommand(SocketIO *dio, int *k, string *dm) : Command(dio)
 {
     this->description = "2. algorithm settings\n";
     this->k = k;
     this->dm = dm;
-    this->menu = menu;
 }
-void SettingsCommand::execute()
+string SettingsCommand::execute()
 {
     dio->write("The current KNN parameters are: K = " + to_string(*k) + ", distance metric = " + *dm + "\n");
     string input = dio->read();
@@ -37,9 +34,9 @@ void SettingsCommand::execute()
         *k = ktemp;
         *dm = dmtemp;
     }
-    dio->write(menu);
+    return "";
 }
-AlgorithmCommand::AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names, string menu) : Command(dio)
+AlgorithmCommand::AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names) : Command(dio)
 {
     this->description = "3. classify data\n";
     this->k = k;
@@ -47,37 +44,34 @@ AlgorithmCommand::AlgorithmCommand(SocketIO *dio, int k, string dm, list<string>
     this->data = data;
     this->dataSet = dataSet;
     this->names = names;
-    this->menu = menu;
+
 }
-void AlgorithmCommand::execute()
+string AlgorithmCommand::execute()
 {
     if (data.empty())
     {
-        dio->write("Please upload data\n" + menu);
-        return;
+        return "Please upload data\n";
     }
 
     *names = Knn().fullKnnAlgo(data, k, dataSet, dm);
-    dio->write("Classifying data complete\n" + menu);
+    return "Classifying data complete\n";
 }
-ResultsCommand::ResultsCommand(SocketIO *dio, vector<string> names, list<string> data, string menu) : Command(dio)
+ResultsCommand::ResultsCommand(SocketIO *dio, vector<string> names, list<string> data) : Command(dio)
 {
     this->description = "4. display results\n";
     this->names = names;
     this->data = data;
-    this->menu = menu;
+
 }
-void ResultsCommand::execute()
+string ResultsCommand::execute()
 {
     if (data.empty())
     {
-        dio->write("Please upload data\n"+ menu);
-        return;
+        return "Please upload data\n";
     }
     else if (names.empty())
     {
-        dio->write("Please classify data\n"+ menu);
-        return;
+        return"Please classify data\n";
     }
     int counter = 1;
     string output = "";
@@ -87,33 +81,31 @@ void ResultsCommand::execute()
         counter++;
     }
     output += "Done.\n";
-    dio->write(output + menu);
+    return output;
 }
 
-DResultCommand::DResultCommand(SocketIO *dio, vector<string> names, list<string> data, string menu) : Command(dio)
+DResultCommand::DResultCommand(SocketIO *dio, vector<string> names, list<string> data) : Command(dio)
 {
     this->description = "5. download results\n";
     this->names = names;
     this->data = data;
-    this->menu = menu;
 }
-void DResultCommand::execute()
+string DResultCommand::execute()
 {
     if (data.empty())
     {
-        dio->write("Please upload data\n"+menu);
-        return;
+        return "Please upload data\n";
     }
     else if (names.empty())
     {
-        dio->write("Please classify data\n"+menu);
-        return;
+        return "Please classify data\n";
     }
     string filePath = dio->read();
     // new thread
     // thread t(ref(WriteToFile), ref(filePath), ref(names));
     // t.detach();
     WriteToFile(filePath, names);
+    return "";
 }
 void DResultCommand::WriteToFile(string path, vector<string> names)
 {
@@ -141,7 +133,8 @@ ExitCommand::ExitCommand(SocketIO *dio, bool *flag) : Command(dio)
     this->description = "8. exit\n";
     this->flag = flag;
 }
-void ExitCommand::execute()
+string ExitCommand::execute()
 {
     *flag = false;
+    return "";
 }

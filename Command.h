@@ -17,8 +17,7 @@ protected:
 
 public:
     string description;
-    string menu;
-    virtual void execute() = 0;
+    virtual string execute() = 0;
     Command(SocketIO *dio)
     {
         this->dio = dio;
@@ -30,8 +29,8 @@ class UploadCommand : public Command
 public:
     list<string> *data;
     map<string, list<vector<double>>> *dataSet;
-    UploadCommand(SocketIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet, string menu);
-    void execute();
+    UploadCommand(SocketIO *dio, list<string> *data,map<string, list<vector<double>>> *dataSet);
+    string execute();
 };
 
 class SettingsCommand : public Command
@@ -41,8 +40,8 @@ private:
     string *dm;
 
 public:
-    SettingsCommand(SocketIO *dio, int *k, string *dm, string menu);
-    void execute();
+    SettingsCommand(SocketIO *dio, int *k, string *dm);
+    string execute();
 };
 
 class AlgorithmCommand : public Command
@@ -55,8 +54,8 @@ private:
     map<string, list<vector<double>>> dataSet;
 
 public:
-    AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names, string menu);
-    void execute();
+    AlgorithmCommand(SocketIO *dio, int k, string dm, list<string> data, map<string, list<vector<double>>> dataSet, vector<string> *names);
+    string execute();
 };
 
 class ResultsCommand : public Command
@@ -66,8 +65,8 @@ private:
     list<string> data;
 
 public:
-    ResultsCommand(SocketIO *dio, vector<string> names, list<string> data, string menu);
-    void execute();
+    ResultsCommand(SocketIO *dio, vector<string> names, list<string> data);
+    string execute();
 };
 
 class DResultCommand : public Command
@@ -77,9 +76,9 @@ private:
     list<string> data;
 
 public:
-    DResultCommand(SocketIO *dio, vector<string> names, list<string> data, string menu);
+    DResultCommand(SocketIO *dio, vector<string> names, list<string> data);
     static void WriteToFile(string path,vector<string> names);
-    void execute();
+    string execute();
 };
 
 class ExitCommand : public Command
@@ -87,7 +86,7 @@ class ExitCommand : public Command
 public:
     bool *flag;
     ExitCommand(SocketIO *dio, bool *flag);
-    void execute();
+    string execute();
 };
 
 #endif
