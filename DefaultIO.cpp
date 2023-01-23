@@ -10,6 +10,7 @@ SocketIO::SocketIO(int clientSocket){
         this->clientSocket = clientSocket;
 }
 string SocketIO::read(){
+        cout << "read messege" << endl;
         char buf[4096];
         memset(buf, 0, 4096);
  
@@ -22,14 +23,14 @@ string SocketIO::read(){
  
         if (bytesReceived == 0)
         {
-            perror("Client disconnected");
+            return "empty"; //perror("Client disconnected");
         }
         string getInfo = string(buf, 0, bytesReceived); // the information that recived from the client *****
         return getInfo;
     }
 
 void SocketIO::write(string messege){
-        cout << "sec"; // testttttttttttttttttttttttttttttttttttt
+        cout << "write messege" << endl;
         const int length = messege.length();
         char* char_array = new char[length + 1];
         strcpy(char_array, messege.c_str());

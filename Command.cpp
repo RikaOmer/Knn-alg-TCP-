@@ -86,7 +86,7 @@
     
     DResultCommand::DResultCommand(SocketIO *dio, vector<string> names, list<string> data) : Command(dio)
     {
-        this->description = "4. display results\n";
+        this->description = "5. download results\n";
         this->names = names;
         this->data = data;
     }

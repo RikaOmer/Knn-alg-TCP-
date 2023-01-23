@@ -46,7 +46,7 @@ int main(int length,char** args)
         cout << socketio->read() << endl;
         getline(cin, userInput);
         socketio->write(userInput);
-        cout << socketio->read() << endl;
+        sleep(1);
 
     } while(true);
     //	Close the socket

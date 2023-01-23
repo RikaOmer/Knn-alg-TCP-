@@ -25,11 +25,21 @@ CLI::CLI(SocketIO *dio)
 
 int CLI::menu()
 {
-    dio->write("Welcome to the KNN Calssifier Server.\nPlease choose an option:\n");
+    string printMenu = "Welcome to the KNN Calssifier Server.\nPlease choose an option:\n";
     for (Command *command : commands)
     {
-        dio->write(command->description);
+        printMenu = printMenu + command->description;
     }
+    dio->write(printMenu);
     string option = dio->read();
     return stoi(option) == 8 ? 5 : stoi(option) - 1;
 } 
+
+
+//    dio->write("Welcome to the KNN Calssifier Server.\nPlease choose an option:\n");
+//     for (Command *command : commands)
+//     {
+//         dio->write(command->description);
+//     }
+//     string option = dio->read();
+//     return stoi(option) == 8 ? 5 : stoi(option) - 1;
