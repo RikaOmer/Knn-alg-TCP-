@@ -11,21 +11,17 @@
 
 using namespace std;
 
-void newClient(int listening){
+void newClient(int clientSocket){
     // create new thread
     // Wait for a connection
     cout << "new client"; // *************test***************
-    sockaddr_in client;
-    socklen_t clientSize = sizeof(client);
-    int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
-    if (clientSocket < 0)
-    {
-        perror("error accepting client");
-    }
+
     SocketIO socketIO(clientSocket);
     CLI *cliClient = new CLI(&socketIO);
     cliClient->start(); /// run till enter 8
+
     close(clientSocket);
+    delete cliClient;
     }
  
 int main(int length,char** args){
@@ -43,7 +39,8 @@ int main(int length,char** args){
     hint.sin_family = AF_INET;
     hint.sin_port = htons(server_port); 
     inet_pton(AF_INET, "0.0.0.0", &hint.sin_addr);
-    if(bind(listening, (sockaddr*)&hint, sizeof(hint)) < 0)
+    int client =bind(listening, (sockaddr*)&hint, sizeof(hint));
+    if(client < 0)
     {
         perror("error binding socket");
         return -1;
@@ -58,7 +55,18 @@ int main(int length,char** args){
     {
         //thread clientThread(newClient, listening);
         // clientThread.join();
-         newClient(listening);
+        struct  sockaddr_in client;
+        socklen_t clientSize = sizeof(client);
+        int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
+        if (clientSocket < 0)
+        {
+            cerr<<"error conction to client"<<endl;
+            continue;
+        }
+        thread clientThread(newClient,clientSocket);
+        clientThread.detach();
+
+
     }
     
 }
