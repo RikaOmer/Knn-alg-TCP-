@@ -1,15 +1,25 @@
 compile command make <br />
-for running the server use:  ./server.out file port <br />
+for running the server use:  ./server.out port <br />
 for running the client use: ./client.out ip port <br />
-at the client enter valuse by: vector distance k <br />
-for stop connection to server type: -1 <br />
-
+the menu and function of the project: <br />
+<br />
+1. upload an uncalssified csv data file <br />
+2. algorithm settings <br />
+3. classify data <br />
+4. display results <br />
+5. download results <br />
+8. exit <br />
+<br />
 this project create server and client using TCP. <br />
+the server can serve multiple user at the same time by using thread <br />
+Project Design pattern: CLI <br />
+using command for each option <br />
+using SocketIO send and write messege  <br />
 
+flow:
+server get port as a argument and bind the ip address and port to a socket. <br />
+For each new client the server create new thread and CLI for this client.  <br />
+The CLI create the 6 commands of the menu and save them in vector of commands  <br />
+CLI.start run the menu and get from the user input and execute the user input index in the vector<command>  <br />
 
-have to finish:
-1. exit on 8 <br />
-2. enter 'enter' on 2<br />
-3. 5 download <br />
-4. thread <br />
 
