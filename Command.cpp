@@ -2,6 +2,7 @@
 #include "Command.h"
 #include "CLI.h"
 #include "VectorDistance.h"
+#include <thread>
 
 UploadCommand::UploadCommand(SocketIO *dio, list<string> *data, map<string, list<vector<double>>> *dataSet) : Command(dio)
 {
@@ -135,9 +136,9 @@ string DResultCommand::execute()
     }
     dio->write("enter new file path:\n");
     string filePath = dio->read();
-    // thread t(WriteToFile, filePath, names);
-    // t.detach();
-    WriteToFile(filePath, *names);
+    thread t(WriteToFile, filePath, *names);
+    t.detach();
+    //WriteToFile(filePath, *names);
     return "";
 }
 void DResultCommand::WriteToFile(string path, vector<string> names)
