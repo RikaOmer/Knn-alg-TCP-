@@ -67,7 +67,6 @@ if(file.is_open())
 {
     while(getline(file, line))
     {
-        cout << line << endl;
         data.push_back(line);
     }
 } else {

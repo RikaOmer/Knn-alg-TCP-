@@ -30,7 +30,6 @@ vector<double> VectorDistance::createVector(string str)
     pch = strtok(str1,",");
     while (pch != NULL)
     {
-    cout << pch << endl;
     number = strtod(pch, &end);
     thisVector.push_back(number);
     pch = strtok (NULL, ",");
