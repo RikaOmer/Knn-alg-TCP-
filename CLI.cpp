@@ -20,7 +20,7 @@ void CLI::start()
          }
          else{
             output = commands[5]->execute();
-            dio->write("");
+            dio->write(output);
          }
     }
 }

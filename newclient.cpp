@@ -28,7 +28,7 @@ int main(int length, char **args)
     hint.sin_family = AF_INET;
     hint.sin_port = htons(port);
     inet_pton(AF_INET, ipAddress.c_str(), &hint.sin_addr);
-    SocketIO *socketio; //////////////////////////////////////////////////
+    SocketIO *socketio;
     socketio = new SocketIO(sock);
     //	Connect to the server on the socket
     int connectRes = connect(sock, (sockaddr *)&hint, sizeof(hint));
@@ -40,14 +40,22 @@ int main(int length, char **args)
     //	While loop:
     // char buf[4096];
     string userInput;
+    string getRead;
     do
     {
         //		print and send
-        cout << socketio->read();
-        sleep(1);
+        getRead = socketio->read();
+        if(getRead == "break"){
+            break;
+        }
+        cout << getRead;
         getline(cin, userInput);
+        if(!userInput.empty()){
         socketio->write(userInput);
-
+        }
+        else{
+            socketio->write("empty");
+        }
     } while (true);
     //	Close the socket
     close(sock);

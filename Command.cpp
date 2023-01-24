@@ -27,7 +27,7 @@ string SettingsCommand::execute()
 {
     dio->write("The current KNN parameters are: K = " + to_string(*k) + ", distance metric = " + *dm + "\n");
     string input = dio->read();
-    if (!input.compare("\n") == 0)
+    if (!input.compare("empty") == 0)
     {
         int ktemp = stoi(input.substr(0, input.find(" ")));
         string dmtemp = input.substr(input.find(" ") + 1, input.length());
@@ -141,5 +141,5 @@ ExitCommand::ExitCommand(SocketIO *dio, bool *flag) : Command(dio)
 string ExitCommand::execute()
 {
     *flag = false;
-    return "";
+    return "break";
 }
