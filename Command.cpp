@@ -133,9 +133,9 @@ string DResultCommand::execute()
     {
         return "Please classify data\n";
     }
+    dio->write("enter new file path:\n");
     string filePath = dio->read();
-    // new thread
-    // thread t(ref(WriteToFile), ref(filePath), ref(names));
+    // thread t(WriteToFile, filePath, names);
     // t.detach();
     WriteToFile(filePath, *names);
     return "";
