@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Command.h"
 #include "CLI.h"
+#include "VectorDistance.h"
 
 UploadCommand::UploadCommand(SocketIO *dio, list<string> *data, map<string, list<vector<double>>> *dataSet) : Command(dio)
 {
@@ -25,14 +26,31 @@ SettingsCommand::SettingsCommand(SocketIO *dio, int *k, string *dm) : Command(di
 }
 string SettingsCommand::execute()
 {
+    string output;
+    bool flag = true;
     dio->write("The current KNN parameters are: K = " + to_string(*k) + ", distance metric = " + *dm + "\n");
     string input = dio->read();
     if (!input.compare("empty") == 0)
     {
-        int ktemp = stoi(input.substr(0, input.find(" ")));
+        string ktemp = input.substr(0, input.find(" "));
         string dmtemp = input.substr(input.find(" ") + 1, input.length());
-        // ------------------ check if valid ---------------------------------------
-        *k = ktemp;
+        VectorDistance vec;
+        for (int i = 0; i < ktemp.size(); i++) {
+            if(!isdigit(ktemp[i])){
+                output = "invalid value for K\n";
+                flag = false;
+            }
+        }   
+        if (vec.convertFunctionNum(dmtemp) == 0)
+        {
+            output += "invalid value for metric\n";
+            flag = false;
+        }
+        if (flag == false)
+        {
+            return output;
+        }
+        *k = stoi(ktemp);
         *dm = dmtemp;
     }
     return "";
