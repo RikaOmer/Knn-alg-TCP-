@@ -12,9 +12,19 @@ UploadCommand::UploadCommand(SocketIO *dio, list<string> *data, map<string, list
 string UploadCommand::execute()
 {
     dio->write("Please upload your local train CSV file.\n");
-    *dataSet = StreamFiles().dataSetMake(dio->read()); // read classified file
-    dio->write("Upload complete.\n Please upload your local test CSV file.\n");
-    *data = StreamFiles().dataMake(dio->read()); // read unclassified file
+    string fname = dio->read();
+    if (!StreamFiles().canOpen(fname))
+    {
+        return("cant upload the file\n");
+    }
+    *dataSet = StreamFiles().dataSetMake(fname); // read classified file
+    dio->write("Upload complete.\nPlease upload your local test CSV file.\n");
+    fname = dio->read();
+    if (!StreamFiles().canOpen(fname))
+    {
+        return("cant upload the file\n");
+    }
+    *data = StreamFiles().dataMake(fname); // read unclassified file
     return "Upload complete.\n";
 }
 

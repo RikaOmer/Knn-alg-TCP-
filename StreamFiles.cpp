@@ -9,6 +9,11 @@
  
 using namespace std;
 
+bool StreamFiles::canOpen(string fname){
+    fstream file (fname, ios::in);
+    return file.good();
+}
+
 map<string, list<vector<double>>> StreamFiles::dataSetMake(string fname) 
 {               
  map<string, list<vector<double>>> dataSet;  //dataset that we create and return
