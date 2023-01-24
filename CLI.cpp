@@ -9,11 +9,24 @@ void CLI::start()
     string menu = CLI::menu();
     dio->write(menu);
     int option = 1;
+    bool inflag = true;
     while (flag)
     {
         string get = dio->read();
+        for (int i = 0; i < get.size(); i++) {
+            if(!isdigit(get[i])){
+                inflag = false;
+            }
+        } 
+        if(inflag == false){
+            dio->write("invalid input\n"+menu);
+            inflag = true;
+        } else {
         option = stoi(get);
-         if(option != 8){
+        if(option > 8 || option < 1 || option == 6 || option == 7){
+            dio->write("invalid input\n" + menu);
+        }
+        else if(option != 8){
             option = option -1;
             output = commands[option]->execute();
             dio->write(output + menu);
@@ -22,6 +35,7 @@ void CLI::start()
             output = commands[5]->execute();
             dio->write(output);
          }
+        }
     }
 }
 
