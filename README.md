@@ -1,4 +1,4 @@
-<h1>CPP TCP server and client<</h1>
+<h1>CPP TCP server and client</h1>
 <br />
 Compile command:            make <br />
 For running the server use: ./server.out [port] <br />
