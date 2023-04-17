@@ -1,7 +1,10 @@
-compile command make <br />
-for running the server use:  ./server.out port <br />
-for running the client use: ./client.out ip port <br />
-the menu and function of the project: <br />
+<h1>CPP TCP server and client<</h1>
+<br />
+Compile command:            make <br />
+For running the server use: ./server.out [port] <br />
+For running the client use: ./client.out [ip] [port] <br />
+
+The menu and function of the project: <br />
 <br />
 1. upload an uncalssified csv data file <br />
 2. algorithm settings <br />
